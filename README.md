@@ -1,24 +1,26 @@
-# Delivery Fee Calculator
+# TVMaze Show Data Aggregator
 
-Calculates order delivery fees based on order total thresholds and the day of the week. Built for Lab 01B.
+This project fetches show data from the TVMaze API and aggregates counts by genre and network channel into a structured JSON summary.
 
-## Setup
+## Data source
+- TVMaze API Endpoint: https://api.tvmaze.com/shows?page=0
 
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+## Setup & Execution
+1. Install dependencies:
+   pip install -r requirements.txt
+2. Run the program:
+   python records.py
 
-## Run
+## Example output
+{"source_url": "https://api.tvmaze.com/shows?page=0", "total_records_processed": 240}
 
-python app.py
+## Data quirks
+- Missing Genres: Shows without listed genres are assigned to the 'not_categorized' category.
+- Missing Networks: Shows with a null or missing network object are categorized under 'unknown Network'.
 
-## Example
+## Design choices
+- Dictionaries for Aggregations: Used Python dictionary key-value lookup and .get() defaults for fast O(1) count updates and missing-key handling.
+- Pathlib: Used pathlib.Path for cross-platform file handling when reading and writing outputs.
 
-Enter the order total in dollars: 90
-Enter the delivery day (e.g. Saturday): Thursday
-Order: $90.00 on Thursday, delivery fee is $1.00.
-
-## Known Limitations
-
-* Day inputs require proper capitalization to match the valid days list.
-* Input validation prompts print error messages rather than looping for re-entry.
+## Known limitations
+- The script currently fetches only page 0 of the API rather than iterating across all paginated pages.
